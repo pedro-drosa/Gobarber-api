@@ -2,12 +2,12 @@ import { getRepository, Repository, Raw } from 'typeorm';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
+
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
 import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
-
 import Appointment from '../entities/Appointment';
 
-class AppointmentRepository implements IAppointmentsRepository {
+class AppointmentsRepository implements IAppointmentsRepository {
   private ormRepository: Repository<Appointment>;
 
   constructor() {
@@ -18,7 +18,8 @@ class AppointmentRepository implements IAppointmentsRepository {
     const findAppointment = await this.ormRepository.findOne({
       where: { date },
     });
-    return findAppointment || undefined;
+
+    return findAppointment;
   }
 
   public async findAllInMonthFromProvider({
@@ -32,8 +33,9 @@ class AppointmentRepository implements IAppointmentsRepository {
       where: {
         provider_id,
         date: Raw(
-          dateFieldname =>
-            `to char(${dateFieldname}, 'MM-YYYY' = '${parsedMonth}-${year}')`,
+          dateFieldName =>
+            `date_format(${dateFieldName},'MM-YYYY') = '${parsedMonth}-${year}'`,
+          // `to_char(${dateFieldName}, MM-YYYY) = '${parsedMonth}-${year}'`,
         ),
       },
     });
@@ -54,8 +56,9 @@ class AppointmentRepository implements IAppointmentsRepository {
       where: {
         provider_id,
         date: Raw(
-          dateFieldname =>
-            `to char(${dateFieldname}, 'DD-MM-YYYY' = '${parsedDay}-${parsedMonth}-${year}')`,
+          dateFieldName =>
+            `date_format(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
+          // `to_char(${dateFieldName}, DD-MM-YYYY) = '${parsedDay}-${parsedMonth}-${year}'`,
         ),
       },
     });
@@ -80,4 +83,4 @@ class AppointmentRepository implements IAppointmentsRepository {
   }
 }
 
-export default AppointmentRepository;
+export default AppointmentsRepository;
