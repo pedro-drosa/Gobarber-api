@@ -1,17 +1,17 @@
 {
-  "type": "mysql",
+  "type": "postgres",
   "host": "localhost",
-  "port": 3306,
+  "port": 5432,
   "username": "root",
   "password": "",
   "database": "gostack_gobarber",
-  "entities":[
+  "entities": [
     "./src/modules/**/infra/typeorm/entities/*.ts"
   ],
-  "migrations":[
+  "migrations": [
     "./src/shared/infra/typeorm/migrations/*.ts"
   ],
-  "cli":{
-    "migrationsDir":"./src/shared/infra/typeorm/migrations"
+  "cli": {
+    "migrationsDir": "./src/shared/infra/typeorm/migrations"
   }
 }

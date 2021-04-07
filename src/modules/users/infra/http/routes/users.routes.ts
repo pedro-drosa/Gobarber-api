@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
+
 import uploadConfig from '@config/upload';
 
 import UsersController from '../controllers/UsersController';
@@ -21,5 +22,4 @@ usersRouter.patch(
   upload.single('avatar'),
   userAvatarController.update,
 );
-
 export default usersRouter;
