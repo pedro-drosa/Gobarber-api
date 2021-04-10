@@ -1,3 +1,6 @@
 node_modules/
 tmp/*
-__ormconfig.json
+ormconfig.json
+.env
+ormconfig
+coverage
